@@ -48,50 +48,41 @@ def get_uniquedrinkname(i_list):
   return name
   
 def getdrinkname(i_list):
-  #Search the ingredients list in the name directory
-  print "Getting drink name "
+  #Search the ingredients list in the name directory  
   for name, ing in name_dir.iteritems():
     if ing == i_list:
       return name
   newname = get_uniquedrinkname(i_list)
   return newname
 
+person_drink = {}
 def main():
-  another = False
-  c_drink = {}
-  ing_list = []
-  c_drink = ask_drink(questions)
-  ing_list = construct_drink(ingredients, c_drink)
-  
-  if ing_list:
-#   Create name and add it to the name dictionary
-    drinkname = getdrinkname(ing_list)
-    print "\nYour drink {} contains all this cool stuff \n".format(drinkname) 
-    for ing in ing_list:  
-      print "{}".format(ing)
-
-  print "Would you like another ? "    
-  another = raw_input().lower() in ['y','yes']
-    
+  another = True
   while another:
-    print "Would you like the same as the last or a new one ? "
-    same = raw_input().lower() in ['s', 'same']
-    if same:
-      drinkname = getdrinkname(ing_list)
-      print " {} coming up .. ".format(drinkname)
+    c_drink = {}
+    ing_list = []
+    print "Could I have your name please for the order ?"
+    person = raw_input().lower()
+    if person in person_drink:
+      print "Would you like the same as the last or a new one ? "
+      same = raw_input().lower() in ['s', 'same']
+      if same:
+        ing_list = person_drink[person]
     else:
-      c_drink = {}
-      ing_list = []
-      c_drink = ask_drink(questions)
-      ing_list = construct_drink(ingredients, c_drink)
-      if ing_list:
-        print "Your drink contains all this cool stuff \n" 
-        for ing in ing_list:  
-          print "{}".format(ing)
-    print "Would you like another ? "    
+        c_drink = ask_drink(questions)
+        ing_list = construct_drink(ingredients, c_drink)
+    if ing_list:
+  #   Create name and add it to the name dictionary
+      drinkname = getdrinkname(ing_list)
+      person_drink[person] = ing_list;
+      print "\n {} :Your drink {} contains all this cool stuff \n".format(person, drinkname).upper() 
+      for ing in ing_list:  
+        print "{}".format(ing)
+
+    print "Would you like a drink  ? "    
     another = raw_input().lower() in ['y','yes']
+      
     
-  
 if __name__ =='__main__':
   main()                    
                     
